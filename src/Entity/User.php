@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,6 +47,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="client")
+     */
+    private $missionsClient;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Mission::class, mappedBy="superhero")
+     */
+    private $missionsHero;
+
+    public function __construct()
+    {
+        $this->missionsClient = new ArrayCollection();
+        $this->missionsHero = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +168,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mission[]
+     */
+    public function getMissionsClient(): Collection
+    {
+        return $this->missionsClient;
+    }
+
+    public function addMissionsClient(Mission $missionsClient): self
+    {
+        if (!$this->missionsClient->contains($missionsClient)) {
+            $this->missionsClient[] = $missionsClient;
+            $missionsClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMissionsClient(Mission $missionsClient): self
+    {
+        if ($this->missionsClient->removeElement($missionsClient)) {
+            // set the owning side to null (unless already changed)
+            if ($missionsClient->getClient() === $this) {
+                $missionsClient->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mission[]
+     */
+    public function getMissionsHero(): Collection
+    {
+        return $this->missionsHero;
+    }
+
+    public function addMissionsHero(Mission $missionsHero): self
+    {
+        if (!$this->missionsHero->contains($missionsHero)) {
+            $this->missionsHero[] = $missionsHero;
+            $missionsHero->addSuperhero($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMissionsHero(Mission $missionsHero): self
+    {
+        if ($this->missionsHero->removeElement($missionsHero)) {
+            $missionsHero->removeSuperhero($this);
+        }
 
         return $this;
     }

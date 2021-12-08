@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\VilainRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,6 +35,16 @@ class Vilain
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Mission::class, mappedBy="vilain")
+     */
+    private $missionsVilain;
+
+    public function __construct()
+    {
+        $this->missionsVilain = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,6 +83,33 @@ class Vilain
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mission[]
+     */
+    public function getMissionsVilain(): Collection
+    {
+        return $this->missionsVilain;
+    }
+
+    public function addMissionsVilain(Mission $missionsVilain): self
+    {
+        if (!$this->missionsVilain->contains($missionsVilain)) {
+            $this->missionsVilain[] = $missionsVilain;
+            $missionsVilain->addVilain($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMissionsVilain(Mission $missionsVilain): self
+    {
+        if ($this->missionsVilain->removeElement($missionsVilain)) {
+            $missionsVilain->removeVilain($this);
+        }
 
         return $this;
     }
