@@ -76,3 +76,7 @@ Then, go to [the administration](http://127.0.0.1:8000/admin) or [the API Docume
 You can access to API only with a token generated with success login credentials.
 
 You need to send your login credentials with a POST request on http://127.0.0.1:8000/login_check
+
+With Postman, you need to past your token as Bearer token in authorization tab.
+
+With API Platform interface, you need to click on Authorize and add in the input : "Bearer YOURTOKEN".
