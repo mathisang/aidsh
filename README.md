@@ -32,6 +32,14 @@ DATABASE_URL="mysql://USER:PASSWORD@127.0.0.1:PORT/DATABASE?serverVersion=5.7"
 ```
 Wait the fixtures generation
 
+
+> Generate jwt keys
+```
+./bin/console lexik:jwt:generate-keypair
+```
+Wait the fixtures generation
+
+
 > Start server
 ```
 ./bin/console server:run
