@@ -41,6 +41,11 @@ class Vilain
      */
     private $missionsVilain;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function __construct()
     {
         $this->missionsVilain = new ArrayCollection();

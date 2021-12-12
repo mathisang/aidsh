@@ -35,8 +35,8 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
             $mission->setName($nameMission)
                 ->setDescription($faker->address)
                 ->setClient($users[$m])
-                ->setDateRealisation($faker->dateTimeBetween('+5 days', '+40 days'))
-                ->setDateStart($faker->dateTimeBetween('-5 days', '+5 days'))
+                ->setDateRealisation($faker->dateTimeBetween('+5 days', '+20 days'))
+                ->setDateEnd($faker->dateTimeBetween('+21 days', '+45 days'))
                 ->setPriority($priorityList[rand(0, 2)])
                 ->setStatus($statusList[rand(0, 3)]);
 

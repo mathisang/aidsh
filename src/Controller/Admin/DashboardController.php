@@ -29,9 +29,13 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        $roles = $this->getUser()->getRoles();
+
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Missions', 'fas fa-list', Mission::class);
-        yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('Vilains', 'fas fa-list', Vilain::class);
+        yield MenuItem::linkToCrud('Missions', 'fas fa-file-alt', Mission::class);
+        if (in_array('ROLE_ADMIN' , $roles)) {
+            yield MenuItem::linkToCrud('Users', 'fas fa-user', User::class);
+            yield MenuItem::linkToCrud('Villains', 'fas fa-user-ninja', Vilain::class);
+        }
     }
 }

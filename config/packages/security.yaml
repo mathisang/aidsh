@@ -21,13 +21,25 @@ security:
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            custom_authenticator: App\Security\LoginAdminAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: ^/admin
         api:
             pattern: ^/api
             stateless: true
             jwt: ~
-#        main:
-#            lazy: true
-#            provider: app_user_provider
+        main:
+            lazy: true
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\LoginAdminAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -40,3 +52,4 @@ security:
     access_control:
          - { path: ^/api/, roles: ROLE_ADMIN }
          - { path: ^/api/login, roles: PUBLIC_ACCESS }
+         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_CLIENT, ROLE_SUPER_HERO] }

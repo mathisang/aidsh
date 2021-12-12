@@ -4,37 +4,46 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MissionRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MissionRepository::class)
+ * @ApiResource(
+ *  normalizationContext={
+ *      "groups"={"test"}
+ *  }
+ * )
  */
-#[ApiResource]
 class Mission
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"test"})
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"test"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"test"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_start;
+    private $date_end;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="missionsClient")
@@ -102,14 +111,14 @@ class Mission
         return $this;
     }
 
-    public function getDateStart(): ?\DateTimeInterface
+    public function getDateEnd(): ?\DateTimeInterface
     {
-        return $this->date_start;
+        return $this->date_end;
     }
 
-    public function setDateStart(\DateTimeInterface $date_start): self
+    public function setDateEnd(\DateTimeInterface $date_end): self
     {
-        $this->date_start = $date_start;
+        $this->date_end = $date_end;
 
         return $this;
     }
@@ -143,7 +152,7 @@ class Mission
         return $this->date_realisation;
     }
 
-    public function setDateRealisation(\DateTimeInterface $date_realisation): self
+    public function setDateRealisation(\DateTimeInterface $date_realisation = null): self
     {
         $this->date_realisation = $date_realisation;
 
