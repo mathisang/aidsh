@@ -65,4 +65,6 @@ Then, go to [the administration](http://127.0.0.1:8000/admin) or [the API Docume
 
 ## API
 
-You can access to API only with a token generated with success login credentials
+You can access to API only with a token generated with success login credentials.
+
+You need to send your login credentials with a POST request on http://127.0.0.1:8000/login_check
